@@ -9,7 +9,7 @@ from autogluon.core.utils import get_pred_from_proba_df
 
 def model_fn(model_dir):
     """loads model from previously saved artifact"""
-    model = TabularPredictor.load(model_dir)  # or model = MultiModalPredictor.load(model_dir) for example
+    model = TabularPredictor.load(model_dir)
     globals()["column_names"] = model.feature_metadata_in.get_features()
     return model
 

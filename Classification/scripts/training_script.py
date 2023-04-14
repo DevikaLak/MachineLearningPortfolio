@@ -38,6 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--model-dir", type=str, default=get_env_if_present("SM_MODEL_DIR"))
     parser.add_argument("--n_gpus", type=str, default=get_env_if_present("SM_NUM_GPUS"))
     parser.add_argument("--train_dir", type=str, default=get_env_if_present("SM_CHANNEL_TRAIN"))
+    # Passing a separate dataset for validation
     parser.add_argument("--valid_dir", type=str, default=get_env_if_present("SM_CHANNEL_VALID"))
     parser.add_argument("--test_dir", type=str, required=False, default=get_env_if_present("SM_CHANNEL_TEST"))
     parser.add_argument("--ag_config", type=str, default=get_env_if_present("SM_CHANNEL_CONFIG"))
@@ -47,7 +48,6 @@ if __name__ == "__main__":
 
     print(f"Args: {args}")
 
-    # See SageMaker-specific environment variables: https://sagemaker.readthedocs.io/en/stable/overview.html#prepare-a-training-script
     os.makedirs(args.output_data_dir, mode=0o777, exist_ok=True)
 
     config_file = get_input_path(args.ag_config)
@@ -65,6 +65,7 @@ if __name__ == "__main__":
     train_file = get_input_path(args.train_dir)
     train_data = TabularDataset(train_file)
     
+    # Added steps to read validation data
     valid_file = get_input_path(args.valid_dir)
     valid_data = TabularDataset(valid_file)
     
@@ -74,6 +75,7 @@ if __name__ == "__main__":
     ag_predictor_args["path"] = save_path
     ag_fit_args = config["ag_fit_args"]
 
+    # Setting train and validation data in fit method
     predictor = TabularPredictor(**ag_predictor_args).fit(train_data, tuning_data=valid_data, **ag_fit_args)
 
     # --------------------------------------------------------------- Inference
