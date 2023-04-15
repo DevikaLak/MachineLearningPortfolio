@@ -10,11 +10,25 @@ ag_predictor_args:
 # - see https://github.com/autogluon/autogluon/blob/v0.5.2/tabular/src/autogluon/tabular/predictor/predictor.py#L286-L711
 ag_fit_args:
   presets: best_quality
-  time_limit: 1200
+  time_limit: 600
   num_bag_folds: 2
   num_bag_sets: 1
   num_stack_levels: 0
   use_bag_holdout: true
+  hyperparameters: {
+      XGB: {
+               'n_estimators': 15000, #Changed from 10000 to 15000
+               'learning_rate': 0.03,
+               'objective': 'binary:logistic',
+               'eval': 'auc',
+               'booster': 'gbtree'
+            }
+  }
+  hyperparameter_tune_kwargs: {
+        'num_trials': 5,
+        'scheduler' : 'local',
+        'searcher': 'auto'
+  }
 
 output_prediction_format: csv  # predictions output format: csv
 feature_importance: false       # calculate and save feature importance if true
