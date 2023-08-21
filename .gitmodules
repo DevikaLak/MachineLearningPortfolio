@@ -1,3 +1,6 @@
 [submodule "Operationalizing-ML-in-AWS"]
 	path = Operationalizing-ML-in-AWS
 	url = https://github.com/DevikaLak/Operationalizing-ML-in-AWS.git
+[submodule "Computer-Vision-Image-Classification"]
+	path = Computer-Vision-Image-Classification
+	url = https://github.com/DevikaLak/Computer-Vision-Image-Classification.git
